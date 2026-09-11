@@ -1,57 +1,47 @@
-# Game design — playable prototype 0.2
+# Game design — prototype 0.3
 
-## Intent
+## Intent and setting
 
-A simple but tactically interesting landscape-friendly Hindu-themed tower defence game, primarily for an Indian audience. Illustrated Indian storybook art, English controls, selected meaningful Sanskrit names. All seven shrines and all core systems must be available together; reduce map count rather than shrine count.
+A Hindu mythological tower defence game with Indian storybook art, English controls and seven distinct shrines. Mira follows the river through the Banyan Grove, Lotus Crossing, Temple Town, Mountain Steps and First Spring. Pisachas, rakshasas, oath-bound yakshas and asura soldiers serve different battlefield roles. Their allegiances and the invented commanders’ boons are fictional.
 
-## Battle loop
+Each region has three encounters: secure the approach, protect the community’s passage, then overcome the commander. Scenes feature lamps, offerings, processions, temple keepers, boons and divine protections. Victory restores the community’s sacred space. All encounters are selectable for prototype testing.
 
-Select a numbered plot, establish a shrine, inspect the next wave and start it. Earn offerings for defeated enemies and wave completion. Spend on new shrines or three linear favour levels: Established, Honoured and Exalted. Multiple shrines to one deity are allowed. Each shrine owns its favour. Selling returns floor(85% of all offerings spent). Offerings reset each battle. Pause permits construction and upgrades.
+## Core rules
 
-The temple begins with 20 shield. Most foes remove 1–2 shield; a boss removes 8. At zero shield the battle ends, leaving murtis intact. Complete eight waves to restore that temple. The prototype contains five freely selectable chapters; victory adds restoration lights and a saved campaign record. The best remaining shield is saved for each temple.
+Place shrines on fixed plots. Offerings pay for construction and linear favour upgrades: Established, Honoured, Exalted. Favour belongs to the shrine and is not a second currency. Multiple shrines to one deity are allowed. Rebuilding refunds floor(85% of investment). New encounters reset the battlefield economy.
 
-## Definitive numeric content
+Six, seven and eight waves form the three regional encounters. Ordinary enemies reaching the sanctuary remove shield. A commander reaching it breaks the shield completely; commander encounters require defeating that foe. Pause permits building, upgrades and targeting. Speeds cycle 1×, 2× and 5×.
 
-`dist/data.js` is the single source of truth for prices, ranges, damage, attack intervals, upgrades, map paths, building plots and wave definitions. `dist/engine.js` defines the exact runtime effects. These are initial tuning values, not final balance.
+`dist/data.js` and `dist/engine.js` are the definitive numeric rules. Values are provisional balance settings.
 
-Agni: area damage; level two and three leave burning ground. Varuna: slow and wet marking; third level affects additional foes. Vayu: rapid damage and bounded pushback; bonus damage to flying foes. Indra: armour-piercing lightning; wet targets take 25% extra first-hit damage and gain additional lightning jumps. Prithvi: repeated roots; third level binds additional foes. Saraswati: modest musical damage, a second-target echo at level three, passive reveal and nearby attack-speed support, rising 16% per favour level. Durga: holds up to one/two/three grounded visible foes and attacks.
+## Shrine roles
 
-One divine protection per enemy. It blocks its patron's damage and harmful effects, including intervention and reveal. Ordinary armour is separate. Every shrine skips its protected targets. Protected enemies are marked by the deity's name. Hidden enemies require Saraswati's reveal before direct attacks and hostile interventions can affect them. Flying enemies evade Durga's blocking mechanic.
+Agni applies lasting non-stacking burns, prioritising fresh targets; Exalted burning defeats spread fire. Indra chains through groups, gaining conduction from Varuna’s wet marking. Vayu deals large immediate hits and extra flying damage, without routine pushback. Varuna hits broad crowds; every fourth attack surges, becoming every third at Exalted. Prithvi rolls boulders through enemies aligned with the target and cracks armour from Honoured onwards. Saraswati reveals and accelerates nearby shrines; strongest support applies, never stacking. Durga strikes only when the player chooses an eligible enemy and recharges over 24/21/18 combat seconds by level.
 
-## Combinations
+Every upgrade improves reach or output as appropriate. Durga already reaches the whole route. Saraswati’s reach grows more strongly than that of damage shrines. Applicable automatic shrines support First, Strongest and Groups targeting. Agni automatically prioritises unburnt targets.
 
-- Varuna's wet status lasts four seconds and enables stronger Indra chains.
-- Prithvi keeps foes in Agni's burning ground.
-- Vayu pushes foes back towards Durga's blocking zone.
-- Saraswati reveals hidden foes and increases nearby shrine attack speed; multiple Saraswati bonuses do not stack, only the strongest applies.
+## Protection and boons
 
-## Intervention
+Divine protection blocks that deity’s damage and harmful effects. Already-applied Agni burns cannot harm an enemy while its changing protection is Agni. Hidden foes require revelation before ordinary targeting. An already-applied burn continues out of range and through concealment.
 
-Defeats add three meter points (bosses add twenty); completed waves add twelve. Maximum 100. Spend the whole meter on one established shrine's power during combat. No per-deity cooldown bars. Powers respect divine protection and visibility rules. Saraswati instead provides eight seconds of reveal and global support. Interventions target eligible enemies automatically in this prototype to avoid an extra touch targeting mode.
+Vajraketu marches for seven seconds with reduced incoming damage, then pauses vulnerably for three; he always resumes. Dharan combines Varuna’s protection and heavy armour. Mayadhara creates veiled copies when struck by Indra, at most once every four seconds. Nishachara alternates concealment every five seconds. Rudhiraksha cycles Agni, Varuna and Indra protection every eight seconds.
 
-## Bosses
+## Interventions
 
-- Vajraketu: only takes one-quarter damage while moving; roots or guardians remove this benefit.
-- Dharan: Varuna-protected yaksha with heavy armour; fire and lightning bypass armour.
-- Mayadhara: Indra hits create two veiled pisacha copies, at most once every four seconds.
-- Nishachara: alternates visible/hidden every five seconds; Saraswati can reveal him.
+A shared 100-point meter funds one intervention. Agni ignites eligible foes for twelve seconds; Indra storms for six seconds; Vayu strikes around a selected path point; Varuna floods the battlefield and pushes foes back once; Prithvi raises a five-second barrier which shatters; Saraswati reveals globally and doubles base attack/recharge speed for eight seconds; Durga readies a double-strength manual strike. Bosses resist flood displacement and can be held by a barrier for only a short interval, followed by temporary barrier immunity.
 
-- Rudhiraksha: cycles Agni/Varuna/Indra protection every eight seconds.
+## Active map decisions
 
-All boss waves are announced in advance, including their boon and protective allegiance. The families are gameplay categories, not a theological power ranking.
+Each region has one action, normally recharging in 45 combat seconds: bell revelation plus meter, a local sluice pushback, temporary courtyard gate, rockfall and armour cracking, or spring healing plus wet marking. The spring has three uses per battle. Optional bearers travel against the enemy flow; nearby foes reduce their resolve. Reaching safety awards 100 offerings and intervention charge. Failure means retreat without the bonus. If all foes are defeated while the escort is travelling, its remaining passage is safe.
 
-## Saving
+Early calls are available once the current wave’s queue is empty, while enemies remain and fewer than two waves overlap. Each wave pays its own completion reward once. Survival pauses for aid every five waves and prohibits an early call across those checkpoints.
 
-Battle and progression are stored locally on the device/browser, every three seconds and on user actions. Backgrounding pauses combat. A resumed active battle opens paused. A different device does not share saves. Clearing browser storage removes progress. No user account is required by game code; the private preview host separately requires its owner's access.
+## Progression
 
-## Connected journey and rewards
+Only commander victories restore temples. Three lamps reward victory, no shield damage during that attempt, and a region-specific challenge; lamps accumulate across attempts. All three unlock optional cosmetic festival decorations. Encounter wins save independently. A selectable blessing lasts one battle: +80 starting offerings, +15% reach or +25% intervention charge. No permanent statistical grind is added.
 
-Mira, a temple keeper, follows the river upriver: Banyan Grove → Lotus Crossing → Temple Town → Mountain Steps → First Spring. Each chapter introduces the next through short opening and victory scenes. Saving temples restores visual details and brings their communities back. All chapters remain available for prototype testing.
+Easy, Normal and Difficult change health, starting offerings, speed and enemy payouts. Difficult also changes wave composition. Completing the five temples unlocks The unending vigil. Enemy health escalates after each eight-wave cycle; every five waves the player chooses offerings, shield repair or a full intervention meter.
 
-Offerings are the only spendable currency. Favour is the individual shrine’s level, purchased with offerings. There is no passive mining or additional persistent economy. A battle is the complete eight-wave defence of one temple; a wave is one group arriving during that battle.
+## Save compatibility
 
-Once every foe in the current wave has spawned, the next wave may be called early if fewer than two waves are active. The bonus is 20 plus three times the sum of remaining enemy health fractions, rounded down and capped at 40 additional offerings. Each wave still pays its completion bonus exactly once. Existing foes continue to attack.
-
-Three lamps per temple reward victory, an intact shield, and a chapter-specific challenge. Earned lamps persist across attempts. Lighting all three unlocks optional cosmetic festival decorations. Challenges are: use at most four different deities; call two waves early; finish with three Exalted shrines; use no intervention; establish all seven deities. Used-deity history includes sold shrines.
-
-Speed cycles 1×, 2× and 5×. Enemy introductions and other dialogs pause battle time. Spell animations retain readable real-time duration at higher speeds. Old completed temples migrate to their corresponding chapters; an unfinished v1 battle restarts because maps and wave bookkeeping have changed.
+The journey retains its v2 key and migrates older temple completions. New active battles use a v3 key because combat and map state changed. Previous unfinished battles restart; completed temples and earned lamps remain. Saves are browser-local and active battles resume paused.

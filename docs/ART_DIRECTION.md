@@ -23,3 +23,7 @@ The spell atlas uses four columns and two rows: fire, water, wind, lightning; ea
 ## Further art work
 
 Review deity iconography carefully before final release. Enemy locomotion uses light sprite movement rather than full frame animation. Sound uses optional synthesised cues, not authentic instrument recordings. Visual quality and touch comfort still require hands-on phone testing.
+
+## Active combat update
+
+Keep the existing miniature-painting atlas style. Durga manifests at the selected enemy, Vayu uses larger wind strikes, Agni flames remain on burning foes and Prithvi boulders move along their shot. Functional shield emblems replace overhead patron names. Selecting Saraswati highlights supported shrines. Lamp-bearer escorts reuse the procession artwork. No new generated artwork was needed for this update.

@@ -1,38 +1,49 @@
 # Temple Guardians
 
-An illustrated Hindu-themed tower defence prototype. Play with seven divine shrines, three favour levels, divine protection, elemental combinations and a shared intervention meter.
+An illustrated Hindu mythological tower defence game. Follow Mira, a temple keeper, upriver through five regions and fifteen encounters to break Rudhiraksha’s hold on the First Spring.
 
 ## Play and develop
 
-The browser game is in `dist/`. Serve that folder with any static web server. There are no package dependencies, API keys or backend services. `npm start` serves it using Python 3; `npm test` runs combat tests using Node.js 20 or newer. The Sites preview is hosted separately, so the repository can remain public without exposing account credentials.
+Serve `dist/` with any static web server. No package dependencies, API keys or backend are required. `npm start` uses Python 3; `npm test` runs the Node.js combat and campaign tests. Source is public; the current Sites preview remains private to its owner.
 
-The first implementation uses browser-native JavaScript modules and Canvas 2D. This keeps the remote build simple. Combat logic is isolated from rendering in `dist/engine.js`; definitions, prices, enemy values and waves live in `dist/data.js`. The earlier Phaser/TypeScript proposal was provisional; no Phaser dependency is included in this prototype.
+## The seven shrines
 
-## Included
+- **Agni:** prolonged fire; prioritises enemies that are not already burning.
+- **Indra:** chain lightning, strengthened by wet targets.
+- **Vayu:** heavy immediate damage, particularly effective against flying foes.
+- **Varuna:** broad waves, with a stronger surge every few attacks.
+- **Prithvi:** boulders damage enemies along a line; upgrades crack armour.
+- **Saraswati:** reveals hidden foes and accelerates nearby shrines. No attack.
+- **Durga:** manually select a foe for a powerful strike anywhere on the route. Long recharge; no automatic blocking.
 
-- Agni, Varuna, Vayu, Indra, Prithvi, Saraswati and Durga, available from the outset.
-- Three linear favour levels, placement, 85% rebuilding refund and shared offerings.
-- Four enemy families, with swift, veiled, flying, armoured and protected variants.
-- Five illustrated chapters connected by an upriver story; eight waves and a different boss in each.
-- Water/lightning, earth/fire, wind/guardian and wisdom support combinations.
-- A shared intervention meter with a different power for each deity.
-- Touch and mouse placement, keyboard-accessible plot selector, pause and 1×/2×/5× speed.
-- Browser-local battle resumption, migrating existing completed temples, restoration rewards and three achievement lamps per temple.
-- Original generated Indian miniature-style maps, three illustrated shrine favour tiers, deity-specific spell effects and restoration details.
-- First-appearance enemy introductions and a replayable enemy guide.
-- Early wave calling for bonus offerings; at most two waves overlap.
-- Saraswati deals modest sound damage while revealing and supporting.
-- Earn all three lamps across replays to unlock cosmetic festival decorations.
-- Optional synthesised sound cues. No audio recordings or music licences required by this implementation.
+Three favour levels increase output and reach, with deity-specific final enhancements. Offerings are the only spendable currency. Rebuilding returns 85% of the investment.
 
-## Prototype boundaries
+## Active play and campaign
 
-This is a browser prototype, not an App Store or Google Play release. All chapters are open for testing. Purchases, purchase restoration, platform signing, packaged offline launch, full walk cycles and recorded music are not implemented. Mobile feel and visual quality need hands-on device testing. Deity depictions need a dedicated iconographic review before release.
+- Fifteen encounters across grove, crossing, town, mountain and spring settings; six to eight waves each.
+- Mythological enemy introductions, regional commanders with boons, and a persistent enemy guide.
+- Easy, Normal and Difficult settings affect health, starting offerings, rewards, speed and, on Difficult, wave composition.
+- Three selectable battle blessings: extra starting offerings, greater shrine reach, or faster intervention charge.
+- A local action in each region: temple bell, river sluice, courtyard gate, stone ledge or spring water.
+- Optional lamp-bearer escorts earn offerings if protected; failure costs the bonus, not the battle.
+- Manual Durga strikes; First, Strongest or Groups priorities for applicable automatic shrines.
+- A shared meter with seven distinct interventions, including targeted wind blasts and temporary earthen barriers.
+- Early-wave calling for extra offerings, with at most two waves overlapping.
+- A right-hand shrine panel on desktop; responsive controls on mobile; 1×/2×/5× speeds and pause.
+- Enemy inspection shows health, current effects, boon and “Protected by…”; overhead protection uses a shield emblem.
+- Defeat each regional commander to restore the temple. Achievement lamps accumulate across attempts and unlock cosmetic festival decoration.
+- Restoring all five temples opens **The unending vigil**, escalating survival waves with a choice of aid every five waves.
 
-Game rules and enemy allegiances are fictional interpretations, not claims about scripture. See `docs/GAME_DESIGN.md`, `docs/ART_DIRECTION.md` and `docs/MOBILE_ROADMAP.md`.
+## Saves and project structure
 
-## Checks
+Progress and active battles save on this browser. Earlier completed temples and earned lamps remain available; unfinished battles from previous combat versions restart. No account or cloud save is built into the game. Local storage removal clears progress.
 
-`npm test` exercises divine immunity, spending and upgrades, hidden-enemy detection, water effects, intervention costs, boss armour, save/resume including overlapping waves, defeat, a finite-budget victory on each map, all-seven damage, early rewards, speed equivalence, progress migration, lamps and enemy introductions. These simulations establish mechanical playability, not enjoyable difficulty or visual correctness.
+`dist/engine.js` owns combat; `dist/data.js` owns numeric content; `dist/journey-content.js` holds scenes, blessings, difficulty and regional actions; `dist/campaign.js` owns progress; `dist/renderer.js` draws the battlefield; `dist/app.js` connects the controls. Original illustrated WebP assets live in `dist/assets/`.
 
-No open-source licence has been selected for this project.
+## Validation and limitations
+
+Nineteen automated checks cover roles, immunity, manual targeting, timed effects, temporary barriers, rewards, difficulty, saves, survival and finite-budget victories in all fifteen encounters. These checks establish mechanical behaviour, not enjoyable balance or visual quality. This update has not been interactively playtested in a browser or on a phone.
+
+This remains a browser prototype. App packaging, purchases, packaged offline launch, full character animation and recorded music are not implemented. Sound uses optional synthesised cues. Deity iconography needs review before a commercial release. The powers, allegiances, boons and story are fictional game interpretations, not scriptural claims.
+
+No open-source licence has been selected.
