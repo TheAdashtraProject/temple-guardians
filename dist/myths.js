@@ -85,7 +85,7 @@ export function mythTick(b){
  if(e.boon==='mahisha'){const age=b.time-e.arrivedAt,cycle=Math.floor(age/12),phase=age%12;e.winding=phase>=4&&phase<6;e.charging=phase>=6&&phase<8&&e.chargeStoppedCycle!==cycle;e.recovering=phase>=8&&phase<11||e.chargeStoppedCycle===cycle;e.cell=e.charging||e.winding?0:1;e.speed=e.winding?0:e.charging?65:e.recovering?8:18;if(age<40&&b.time>=e.nextEscort){e.nextEscort=b.time+15;b.spawn({type:'rakshasa',waveId:e.waveId},Math.max(0,e.distance-100));}}
  if(e.boon==='vritra'&&b.time>=e.nextCoil){e.coils=Math.min(5,e.coils+1);e.nextCoil=b.time+6;}
  }
- if(b.mapIndex===1&&b.encounter===1&&b.escort.state==='safe'){
+ if((b.campaignId||'river')==='river'&&b.mode==='campaign'&&b.mapIndex===1&&b.encounter===1&&b.escort.state==='safe'){
  const hostile=e=>!['naga','venom'].includes(e.type);b.enemies=b.enemies.filter(hostile);b.queue=b.queue.filter(hostile);b.waves=b.waves.map(g=>g.filter(hostile));
  }
 }

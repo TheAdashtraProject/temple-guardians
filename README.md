@@ -1,49 +1,56 @@
-# Temple Guardians
+# Temple Guardians · Vedastra
 
-An illustrated Hindu mythological tower defence game. Follow Mira, a temple keeper, upriver through five regions and fifteen encounters to break Rudhiraksha’s hold on the First Spring.
+An illustrated Hindu mythical tower defence game from **Vedastra**. Seven divine shrines protect sacred spaces through three connected journeys.
 
-## Play and develop
+## Play
 
-Serve `dist/` with any static web server. No package dependencies, API keys or backend are required. `npm start` uses Python 3; `npm test` runs the Node.js combat and campaign tests. Source is public; the current Sites preview remains private to its owner.
+The main menu offers **Continue**, three campaigns and **Quick Battle**:
 
-## The seven shrines
+- **The Bound River:** 15 encounters following Mira upriver, overcoming the alliance of Mahishasura, Raktabija and Vritra.
+- **Night of Lamps:** 15 encounters carrying the true festival flame with Leela and Kapi. Hidden raiders, mist bearers and veiled commanders reward revelation and sustained damage.
+- **The Seven Winds:** 15 encounters reopening the monsoon supply road with Dharan. Airborne raids alternate with armoured columns.
+- **Quick Battle:** choose one of five settings, Easy/Normal/Difficult, and 4/8/12 waves. A fresh seeded enemy mix is generated on each start from the menu; Replay keeps the same mix. No campaign lamps or restoration rewards are awarded.
 
-- **Agni:** prolonged fire; prioritises enemies that are not already burning.
-- **Indra:** chain lightning, strengthened by wet targets.
-- **Vayu:** heavy immediate damage, particularly effective against flying foes.
-- **Varuna:** light damage, a backward wash with shared per-foe resistance, and Wet synergy with Indra.
-- **Prithvi:** boulders damage enemies along a line; upgrades crack armour.
-- **Saraswati:** reveals hidden foes and accelerates nearby shrines. No attack.
-- **Durga:** manually select a foe for a powerful strike anywhere on the route. Long recharge; no automatic blocking.
+The campaigns reuse five illustrated landscapes with campaign-specific routes, atmosphere, waves and scenes. They are 45 encounters, not 45 newly illustrated maps. All stages are open for prototype testing. The interface uses deep blue, saffron and sandstone; shrine colours remain distinct.
 
-Three favour levels increase output and reach, with deity-specific final enhancements. Offerings are the only spendable currency. Rebuilding returns 85% of the investment.
+## Seven shrines
 
-## Active play and campaign
+- **Agni:** prolonged fire, prioritising foes not already burning.
+- **Indra:** chain lightning, strengthened by Wet targets.
+- **Vayu:** powerful immediate damage, particularly against flying foes.
+- **Varuna:** light damage, backward wash with shared per-foe resistance, and Wet synergy.
+- **Prithvi:** line-damage boulders; upgrades crack armour.
+- **Saraswati:** reveals hidden foes and accelerates nearby shrines; no attack.
+- **Durga:** manually targeted powerful strikes with a long recharge.
 
-- Fifteen encounters across grove, crossing, town, mountain and spring settings; six to eight waves each.
-- Mythological enemy introductions, regional commanders with boons, and a persistent enemy guide.
-- Easy, Normal and Difficult settings affect health, starting offerings, rewards, speed and, on Difficult, wave composition.
-- Three selectable battle blessings: extra starting offerings, greater shrine reach, or faster intervention charge.
-- A local action in each region: temple bell, river sluice, courtyard gate, stone ledge or spring water.
-- Optional lamp-bearer escorts earn offerings if protected; failure costs the bonus, not the battle.
-- Manual Durga strikes; First, Strongest or Groups priorities for applicable automatic shrines.
-- A shared meter with seven distinct interventions, including targeted wind blasts and temporary earthen barriers.
-- Early-wave calling for extra offerings, with at most two waves overlapping.
-- A right-hand shrine panel on desktop; responsive controls on mobile; 1×/2×/5× speeds and pause.
-- Enemy inspection shows health, current effects, boon and “Protected by…”; overhead protection uses a shield emblem.
-- Defeat each regional commander to restore the temple. Achievement lamps accumulate across attempts and unlock cosmetic festival decoration.
-- Restoring all five temples opens **The unending vigil**, escalating survival waves with a choice of aid every five waves.
+Offerings are the only spendable currency. Three favour levels raise each shrine’s output and reach. A shared intervention meter offers seven distinct powers. The river story also includes Kali’s temporary aid against Raktabija; there is no second layer of buildable temple gods.
 
-## Saves and project structure
+## Active play and saves
 
-Progress and active battles save on this browser. Earlier completed temples and earned lamps remain available; unfinished battles from previous combat versions restart. No account or cloud save is built into the game. Local storage removal clears progress.
+Optional escorts, regional actions, target priorities, early-wave calls, manual Durga strikes and targeted interventions give the player decisions during combat. The desktop shrine panel sits on the right. Speed controls offer 1×, 2× and 5×, plus pause.
 
-`dist/engine.js` owns combat; `dist/data.js` owns numeric content; `dist/journey-content.js` holds scenes, blessings, difficulty and regional actions; `dist/campaign.js` owns progress; `dist/renderer.js` draws the battlefield; `dist/app.js` connects the controls. Original illustrated WebP assets live in `dist/assets/`.
+Each campaign keeps separate stage completions, lamps and festival decorations. Existing River progress remains in place. One active battle is saved in this browser, including campaign identity or Quick Battle seed and length. Returning to the main menu pauses it; Continue resumes it paused. Starting a different battle replaces that active battle after confirmation when play or construction has begun. Completed campaign progress remains saved.
 
-## Validation and limitations
+Restoring all five River temples unlocks **The unending vigil**, an endless survival mode. No game account or cloud save is implemented. Clearing browser storage clears saves.
 
-Nineteen automated checks cover roles, immunity, manual targeting, timed effects, temporary barriers, rewards, difficulty, saves, survival and finite-budget victories in all fifteen encounters. These checks establish mechanical behaviour, not enjoyable balance or visual quality. This update has not been interactively playtested in a browser or on a phone.
+## Develop and validate
 
-This remains a browser prototype. App packaging, purchases, packaged offline launch, full character animation and recorded music are not implemented. Sound uses optional synthesised cues. Deity iconography needs review before a commercial release. The powers, allegiances, boons and story are fictional game interpretations, not scriptural claims.
+Serve `dist/` with any static web server. No package dependencies, API keys or backend are required.
 
-No open-source licence has been selected.
+- `npm start`: Python 3 static server.
+- `npm run check`: JavaScript syntax checks.
+- `npm test`: combat, progress, campaign, save and UI-handler regressions.
+- `node scripts/assess-modes.mjs`: 180 automated attempts across three campaigns and Quick Battle setups, all three difficulties. Results in `docs/mode-results.json`.
+- `node scripts/assess-campaign.mjs`: the earlier three-strategy River assessment.
+
+`dist/engine.js` owns combat; `data.js` numeric content; `myths.js` mythic encounters; `campaign-content.js` campaign definitions, route variants and seeded waves; `campaign.js` progress; `experience.js` companion dialogue; `renderer.js` Canvas artwork; `app.js` the controls. Original illustrated WebP assets are in `dist/assets/`.
+
+See [the readiness assessment](docs/READINESS-ASSESSMENT.md) for results and limits. Automated simulations and a DOM adapter do not establish browser rendering, phone usability or fun. This remains a browser prototype; app packaging, purchases, packaged offline launch, recorded music and complete character animation are not implemented. Deity iconography needs review before commercial release.
+
+## Identity
+
+- Public studio: **Vedastra**
+- Game: **Temple Guardians**
+- Planned company: **Vedastra Limited** — not yet incorporated, as reported by the owner. Availability has not been independently verified.
+
+The source repository is public; the current Sites publication remains private to its owner. No open-source licence has been selected. The campaign alliances, motives and combat rules are original game interpretations, not a scriptural chronology.

@@ -1,41 +1,43 @@
-# Readiness assessment · v0.6
+# Readiness assessment · v0.7
 
-## Verdict
+Ready for another prototype playtest. Not an app-store release.
 
-Ready for a small, supervised prototype playtest. Not ready for commercial release or an app-store submission. The campaign is mechanically traversable and the story now has a clear central crisis, but actual browser/phone usability, performance and player enjoyment remain unverified.
+## Added in this version
 
-## Implemented
+- Vedastra studio branding; Temple Guardians remains the game title. Vedastra Limited is recorded as a planned, unincorporated company rather than an existing legal entity.
+- Deep blue, saffron and sandstone interface, preserving deity-specific colours.
+- Main menu with Continue, three campaigns, How to play and configurable Quick Battle.
+- Three campaigns × 15 encounters = 45 story battles. Night of Lamps and The Seven Winds revisit the five illustrated landscapes with different routes, atmosphere, scenes and wave patterns. No claim of 45 new maps.
+- Independent campaign progression; existing River progress retained.
+- Quick Battle offers five settings, three difficulties and 4/8/12 waves. Seeded replay and saved configuration; no campaign reward writes.
+- Menu return pauses an active battle. Continue, campaign selection, setup and Quick Battle victory handlers are exercised through the real application module in a small DOM adapter.
 
-- Three named principal antagonists: Vritra binds the river, Mahishasura occupies the weakened settlements, Raktabija guards the ascent. Their pact and motives are explicitly an original game story.
-- Former named commanders become Armoured General, Illusionist, Mist Stalker and Seal Bearer. Enemy introductions, previews, journal data, dialogue and chapter text use these roles.
-- The drought is present from the opening grove. The alliance is discovered in the town rather than explained immediately.
-- The temples shelter communities and maintain sacred protections. Seven shrines remain the only buildable combat system. No second layer of temple-deity powers or favour currency.
-- Brahma’s boon, Vishnu’s devotional image at the crossing and the small Shiva shrine in the mountains are narrative references. Kali is explicitly temporary aid against Raktabija.
-- Rescued mountain keepers guide the party to the spring and secure the water channel used by the existing regional action.
+## Automated assessment
 
-## Final automated stage assessment
+180 attempts: 45 campaign encounters plus 15 Quick Battle setting/length combinations, each on three difficulties. One predefined seven-shrine build strategy, finite offerings, manual Durga targeting, interventions, local actions, optional escorts and save/resume during wave three. Quick Battle uses seed 123 for reproducibility.
 
-15 encounters × 3 difficulties × 3 build strategies = 135 attempts. Strategies use finite offerings, seven shrine types in different orders, manual Durga targeting, Indra interventions, regional actions and optional escorts. Each attempt saves and resumes from a snapshot during the third wave. Decisions are automated at 0.1-second intervals; these are not human win-rate estimates or browser playthroughs.
-
-| Difficulty | Completed | Attempts | Stalled |
+| Difficulty | Wins | Attempts | Stalls |
 |---|---:|---:|---:|
-| Easy | 45 | 45 | 0 |
-| Normal | 45 | 45 | 0 |
-| Difficult | 39 | 45 | 0 |
+| Easy | 60 | 60 | 0 |
+| Normal | 60 | 60 | 0 |
+| Difficult | 55 | 60 | 0 |
 
-Every encounter was completed by at least one tested strategy on every difficulty. The balanced strategy completed all 15 Difficult encounters. Remaining losses: heavy strategy at naga pools; heavy/control against the town Illusionist; heavy against Raktabija; heavy/control against Vritra. These are strategy-dependent losses, not proven impossible encounters.
+All 45 story encounters and all 15 tested Quick Battle setups completed on Easy and Normal. Difficult losses were Night of Lamps’ town commander, Seven Winds’ spring commander, and all three First Spring Quick Battle lengths. These are losses by one fixed strategy, not evidence that those stages are impossible.
 
-The initial run found Dharan defeated all three strategies on Difficult, each reaching the sanctuary with substantial health. His Difficult-only health was reduced by 30%; all three strategies then completed that encounter. Easy and Normal scaling was unchanged.
+An initial run exposed early difficulty spikes. Quick Battle now introduces basic foes before hidden/heavier enemies, Difficult-only opening-wave health is reduced for the new modes, and the short Quick Battle boss is scaled for a four-wave economy. Night of Lamps introduces a discrete mist bearer after ordinary hidden foes instead of filling entire groups with concealment sources. The River campaign’s combat balance is unchanged.
 
-Detailed records: `stage-results.json`. Reproduce with `node scripts/assess-campaign.mjs`. Regression suite: 35 checks covering combat, save/resume, target availability, encounter pacing, myth counters and consolidated story names.
+Records: `mode-results.json`. Reproduce with `node scripts/assess-modes.mjs`. The previous River-only three-strategy assessment remains in `stage-results.json`.
 
-## What the assessment does not establish
+## Verification and limits
 
-- Desktop/mobile rendering, touch selection, scrolling, post-victory controls, audio and animation have not been exercised in a browser in this pass. The supervised browser preview remains stopped, and this static project has no compatible development server. No alternative live-site browser route was used.
-- The simulations react immediately and use predefined placement; Easy/Normal 100% completion does not establish their suitability for new players. Normal may still be too forgiving for experienced players.
-- Fun, emotional payoff and repetition need feedback from people who have not helped design the game.
-- Commercial readiness still requires phone testing, art/iconography review, audio polish, purchase implementation and restoration, mobile packaging and release testing.
+40 regression tests cover combat, deity protections, manual targeting, boons, role combinations, progress isolation, old-save compatibility, deterministic Quick Battle replay, campaign content and the menu/Quick Battle result handlers. Syntax checks cover all application modules.
 
-## Recommended next gate
+The DOM adapter catches handler and Canvas-call errors; it does not render pixels or emulate a full browser. No interactive browser or phone playtest was performed in this pass. Visual quality, scrolling, touch accuracy, sound, performance and player enjoyment still need direct observation.
 
-Ask a small group of fresh players to complete the grove and crossing unaided, then attempt a myth boss. Observe confusion and missed controls before explaining anything. Follow with one complete phone campaign and one desktop campaign, including refresh/resume, losing, replaying and returning from the restored battlefield. Resolve those findings before adding campaign length.
+Simulations react at 0.1-second intervals and know where to build. Their success rates are not human win rates. Difficult needs player feedback and additional adaptive strategies; Easy/Normal may still be too forgiving for experienced players.
+
+The new campaigns share backgrounds and recurring commander archetypes. They provide distinct tactical journeys, but bespoke artwork, more set-piece encounters and a less repetitive late campaign are useful future work. App packaging, purchases/restoration, offline launch, audio polish and release testing remain outside this prototype.
+
+## Next player checks
+
+Start each campaign from the new menu; return during a wave, refresh, and Continue. Try a short Quick Battle and inspect its result. Check phone-width menus and the desktop right-hand shrine controls. Then play a complete new campaign unaided and note where the story or repeated encounters lose momentum.

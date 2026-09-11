@@ -1,3 +1,4 @@
+import {chapterFor,campaignInfo} from './campaign-content.js';
 export const CAST={
  mira:{name:'Mira',role:'Temple keeper',colour:'#966332'},
  kapi:{name:'Kapi',role:'Vanara scout',colour:'#aa6231'},
@@ -12,6 +13,8 @@ const briefings=[
  [['leela','There. One channel still running. Keep the soldiers away from it.'],['kapi','Seven lamps. I counted them twice. Dharan made me.'],['mira','The grove, the crossing, the town—all of them need this water. Keep Indra within reach.']]
 ];
 export function briefingFor(b,j){
+ if(b.mode==='quick')return {speaker:'kapi',text:'One road, one defence. Check the next wave before you spend everything.'};
+ if(b.campaignId&&b.campaignId!=='river')return {speaker:b.campaignId==='lamps'?'leela':'dharan',text:campaignInfo(b.campaignId).rule};
  if(b.mode==='survival')return {speaker:'dharan',text:'The road is open. Keeping it open is our work now.'};
  if(b.mapIndex===0&&b.encounter===0&&!j.metMira)return {speaker:'mira',text:'I’m Mira, the temple keeper. Help me hold the grove while the villagers return.'};
  const [speaker,text]=briefings[b.mapIndex][b.encounter];return {speaker,text};
@@ -26,12 +29,15 @@ export function targetAvailability(b,plot,kind='strike'){
  return {ok:true,label:s.empowered?'Choose foe · empowered strike':'Choose a foe for Durga'};
 }
 export function encounterStyle(b){
+ if(b.mode==='quick')return `${b.totalWaves} waves · standalone battle`;
+ if(b.campaignId&&b.campaignId!=='river')return `${b.totalWaves} waves · ${campaignInfo(b.campaignId).name}`;
  if(b.mode==='survival')return 'Endless defence';
  if(b.encounter===0)return b.mapIndex===2?'Two approaches · defend both streets':b.mapIndex===0?'Four short raids':b.mapIndex===1?'Four waves · guard the pools':'Four waves · secure the approach';
  if(b.encounter===1)return 'Six waves · choose your escort window';
  return 'Eight waves · commander confrontation';
 }
 export function fieldLine(b){
+ if(b.mode==='quick'||b.campaignId&&b.campaignId!=='river'){if(b.wave===2)return {speaker:'kapi',text:'There is a gap in the fighting. Is this the moment to send the bearers?'};if(b.wave>=3)return {speaker:b.campaignId==='lamps'?'leela':'dharan',text:b.campaignId==='lamps'?'Keep the last turn within Saraswati’s light.':'Watch the next wave: flyers and armour need different answers.'};return null;}
  if(b.shield<=7)return {speaker:b.mapIndex>2?'leela':'mira',text:'They’re through the outer defence. Watch the last turn.'};
  const boss=b.enemies.find(e=>e.boon==='mahisha');
  if(boss&&!boss.boonBroken)return {speaker:'dharan',text:boss.charging?'He’s charging. Durga can stop him.':'The charge will leave him exposed. Decide when to strike.'};
@@ -50,6 +56,8 @@ export function fieldLine(b){
  };const line=lines[`${b.mapIndex}:${b.encounter}:${b.wave}`];return line?{speaker:line[0],text:line[1]}:null;
 }
 export function victoryLine(b){
+ if(b.mode==='quick')return 'The sanctuary holds. Replay this defence or return to the menu for a different setting. Campaign progress is unchanged.';
+ if(b.campaignId&&b.campaignId!=='river')return b.mapIndex===4&&b.encounter===2?(b.campaignId==='lamps'?'The festival lamps shine from grove to spring. Leela sets down the travelling flame; this time every light along the river leads towards a home.':'The supply road is open. Dharan hands the last stores to the mountain keepers, and Kapi finally gets to travel without running ahead of an army.'):(b.campaignId==='lamps'?'The true lamps burn through another stretch of the road. The pilgrims gather behind Leela for the next stage.':'The bearers bring their supplies into shelter. Dharan sends word ahead: another stretch of the high road is safe.');
  if(b.mapIndex===0&&b.encounter===0)return 'The vanara band accepts food outside the grove. Kapi stays behind: he knows the river paths, and insists you will get lost without him.';
  if(b.mapIndex===1&&b.encounter===1)return b.escort.state==='safe'?'The river stone is returned. Naga guardians leave the steps, and the pilgrims begin crossing again.':'The road is held, but the river stone has not reached its place. The keepers will have to return under guard.';
  if(b.mapIndex===1&&b.encounter===2)return 'Dharan lays down the disputed seal. “The oath is ended. My responsibility is not.” He joins the journey upriver.';
