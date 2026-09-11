@@ -11,7 +11,7 @@ Serve `dist/` with any static web server. No package dependencies, API keys or b
 - **Agni:** prolonged fire; prioritises enemies that are not already burning.
 - **Indra:** chain lightning, strengthened by wet targets.
 - **Vayu:** heavy immediate damage, particularly effective against flying foes.
-- **Varuna:** broad waves, with a stronger surge every few attacks.
+- **Varuna:** light damage, a backward wash with shared per-foe resistance, and Wet synergy with Indra.
 - **Prithvi:** boulders damage enemies along a line; upgrades crack armour.
 - **Saraswati:** reveals hidden foes and accelerates nearby shrines. No attack.
 - **Durga:** manually select a foe for a powerful strike anywhere on the route. Long recharge; no automatic blocking.

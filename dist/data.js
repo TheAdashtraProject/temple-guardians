@@ -38,4 +38,4 @@ export function wavesFor(mapIndex){const m=MAPS[mapIndex],protection=['agni','va
  [...group('asura',4),...group('boss',1,{protection:m.bossProtection,boon:m.boss}),...group('shade',3),...group('yaksha',2,{protection:'durga'})]
 ];}
 export function challengePassed(b){switch(b.map.challengeKind){case'four':return b.usedDeities.length<=4;case'early':return b.earlyCalls>=2;case'exalted':return b.shrines.filter(s=>s.level===3).length>=3;case'patient':return b.interventions===0;case'seven':return b.usedDeities.length===7;default:return false;}}
-export function enemyKey(spec,mapIndex){return spec.type==='boss'?`boss:${MAPS[mapIndex].id}`:`${spec.type}:${spec.protection||'none'}`;}
+export function enemyKey(spec,mapIndex){return spec.type==='boss'?`boss:${MAPS[mapIndex].id}:${MAPS[mapIndex].boss}`:`${spec.name||spec.type}:${spec.protection||'none'}`;}
