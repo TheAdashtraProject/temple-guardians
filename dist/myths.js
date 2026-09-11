@@ -14,7 +14,7 @@ Object.assign(ENEMIES,{
 });
 Object.assign(BY_ID.varuna,{role:'Returning current',description:'Light water damage washes ground foes backwards once, then marks them Wet for five seconds. Each foe resists further regular washback for four seconds, shared across all Varuna shrines. Flying foes resist the current; bosses move less.',changes:['Stronger water damage, greater reach and a longer washback.','Every third attack washes a wider group backwards.']});
 const bosses=[
- [2,'mahisha','Mahishasura',0,'Mahishasura changes between buffalo and warrior forms. His boon blocks shrine damage until Durga lands an empowered strike. Establish Durga before the final wave; that wave supplies a full intervention meter.','Who among you will challenge me?'],
+ [2,'mahisha','Mahishasura',0,'Mahishasura changes between buffalo and warrior forms. He signals a charge, rushes for two seconds, then recovers. Durga stops a charge; her strike deals 60% more damage during recovery. His boon blocks shrine damage until Durga lands an empowered strike. Establish Durga before the final wave; that wave supplies a full intervention meter.','Who among you will challenge me?'],
  [3,'raktabija','Raktabija',3,'Damaging Raktabija creates a magical echo at most once every three seconds (maximum six at once). Call Kali using the story action to prevent new echoes for ten seconds.','Every blow brings another of me.'],
  [4,'vritra','Vritra',2,'Vritra binds the waters: a new coil forms every six seconds, reducing damage received. Actual Indra hits break coils, at most once per second. Place lightning within reach.','The waters will not pass.']
 ];
@@ -42,8 +42,11 @@ CHAPTERS[2].scenes[1]='Recover the festival lamps from Mayadhara. He enters duri
 CHAPTERS[3].scenes[1]='Escort the mountain keepers through Nishachara’s mist. He enters during wave five; Saraswati reveals him.';
 CHAPTERS[4].scenes[1]='Bring the seven lamps past Rudhiraksha’s last seal. He enters during wave five and cycles protection between fire, water and lightning.';
 
+MAPS[2].alternatePoints=[[0,440],[220,440],[220,185],[570,185],[570,440],[1010,440],[1010,390],[1200,390]];
 export function mythWaves(b,w){
  if(b.mode==='survival')return w;
+ if(b.encounter===0)w=[w[0],w[1],w[3],w[5]];if(b.encounter===1)w=[...w.slice(0,5),w[6]];
+ if(b.encounter===0&&b.mapIndex===2)w=w.map(g=>g.map((e,i)=>({...e,lane:i%2})));
  if(b.encounter===0&&b.mapIndex===0)return w.map((g,i)=>g.map((_,k)=>({type:i>1&&k%3===0?'stone':'vanara'})));
  if(b.encounter===0&&b.mapIndex===1)return w.map((g,i)=>g.map((_,k)=>({type:i>1&&k%4===0?'venom':'naga',emerge:k%3===0?.32:0})));
  if(b.encounter===1){w=w.map(g=>g.map(x=>({...x})));if(b.mapIndex===0)w=w.map(g=>g.map((x,k)=>k%3===0?{type:'breaker'}:x));if(b.mapIndex===1)w=w.map(g=>g.map((x,k)=>k%4===0?{type:'naga',emerge:.32}:x));
@@ -55,14 +58,14 @@ export function mythWaves(b,w){
 }
 export function mythSpawn(b,e,spec){
  if(spec.emerge)e.distance=b.route.total*spec.emerge;
- if(e.boss&&['mahisha','raktabija','vritra'].includes(e.boon)){e.atlas=b.map.bossAtlas;e.cell=b.map.bossCell;e.speed=18;e.shield=b.map.shield;e.reward=110;e.protection=null;e.coils=e.boon==='vritra'?2:0;e.nextCoil=b.time+6;e.coilHitAt=-1;e.seedAt=0;}
+ if(e.boss&&['mahisha','raktabija','vritra'].includes(e.boon)){e.atlas=b.map.bossAtlas;e.cell=b.map.bossCell;e.speed=18;e.shield=b.map.shield;e.reward=110;e.protection=null;e.coils=e.boon==='vritra'?2:0;e.nextCoil=b.time+6;e.coilHitAt=-1;e.seedAt=0;e.arrivedAt=b.time;e.nextEscort=b.time+15;}
 }
 export function mythTick(b){
  for(const e of b.enemies){e.mistHidden=false;e.bannerArmour=0;}
  for(const e of b.enemies.filter(e=>e.hp>0)){
  if(e.type==='venom')for(const t of b.enemies)if(t!==e&&Math.abs(t.distance-e.distance)<140)t.mistHidden=true;
  if(e.type==='standard')for(const t of b.enemies)if(t!==e&&Math.abs(t.distance-e.distance)<160)t.bannerArmour=.2;
- if(e.boon==='mahisha'){e.cell=Math.floor(b.time/6)%2;e.speed=e.cell===0?23:15;}
+ if(e.boon==='mahisha'){const age=b.time-e.arrivedAt,cycle=Math.floor(age/12),phase=age%12;e.winding=phase>=4&&phase<6;e.charging=phase>=6&&phase<8&&e.chargeStoppedCycle!==cycle;e.recovering=phase>=8&&phase<11||e.chargeStoppedCycle===cycle;e.cell=e.charging||e.winding?0:1;e.speed=e.winding?0:e.charging?65:e.recovering?8:18;if(age<40&&b.time>=e.nextEscort){e.nextEscort=b.time+15;b.spawn({type:'rakshasa',waveId:e.waveId},Math.max(0,e.distance-100));}}
  if(e.boon==='vritra'&&b.time>=e.nextCoil){e.coils=Math.min(5,e.coils+1);e.nextCoil=b.time+6;}
  }
  if(b.mapIndex===1&&b.encounter===1&&b.escort.state==='safe'){
