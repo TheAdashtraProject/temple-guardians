@@ -53,7 +53,7 @@ export function victoryLine(b){
  if(b.mapIndex===0&&b.encounter===0)return 'The vanara band accepts food outside the grove. Kapi stays behind: he knows the river paths, and insists you will get lost without him.';
  if(b.mapIndex===1&&b.encounter===1)return b.escort.state==='safe'?'The river stone is returned. Naga guardians leave the steps, and the pilgrims begin crossing again.':'The road is held, but the river stone has not reached its place. The keepers will have to return under guard.';
  if(b.mapIndex===1&&b.encounter===2)return 'Dharan lays down the disputed seal. “The oath is ended. My responsibility is not.” He joins the journey upriver.';
- if(b.mapIndex===2&&b.encounter===2)return 'The market opens. Lamps are strung above the streets; Kapi discovers the sweet stalls. Dharan discovers Kapi at the sweet stalls.';
- if(b.mapIndex===3&&b.encounter===2)return 'The keepers return to the mountain sanctuary. Leela opens the upper gate: “One climb left. Then we get our water back.”';
+ if(b.mapIndex===2&&b.encounter===2)return 'The market opens. Captured orders confirm the alliance: Vritra holds the waters and Raktabija guards the source. Kapi finds the sweet stalls before Dharan can gather everyone for the climb.';
+ if(b.mapIndex===3&&b.encounter===2)return 'The rescued keepers reopen their sanctuary. Leela leads the party along a sheltered passage to the source while two keepers go ahead to secure the last open water channel.';
  return b.encounter===2?b.map.outro:'The lamps along the road are lit again. The bearers gather their things, and the journey continues.';
 }

@@ -19,28 +19,43 @@ const bosses=[
  [4,'vritra','Vritra',2,'Vritra binds the waters: a new coil forms every six seconds, reducing damage received. Actual Indra hits break coils, at most once per second. Place lightning within reach.','The waters will not pass.']
 ];
 for(const [i,boon,name,cell,hint,quote] of bosses)Object.assign(MAPS[i],{boss:boon,bossName:name,bossProtection:null,boon:hint,quote,bossAtlas:'myth-bosses',bossCell:cell});
-CHAPTERS[0].encounters[0]='The hungry raiding band';
-CHAPTERS[0].scenes[0]='A vanara band, driven from its feeding grounds, raids the village offerings. Turn the raiders back while Mira arranges food beyond the grove. They are not servants of the asuras.';
-CHAPTERS[0].encounters[1]='The interrupted rite';
-CHAPTERS[0].scenes[1]='A rishi rekindles the sanctuary’s protective rite. Rakshasas try to interrupt it. Guard the final approach and escort the sacred flame. This original episode draws on the Ramayana’s theme of defending a rishi’s sacrifice.';
-CHAPTERS[1].encounters[0]='The disputed pools';
-CHAPTERS[1].scenes[0]='Naga guardians believe the new river steps have disturbed their pools. They emerge beside the crossing, not just at the road entrance. Defend the pilgrims while Mira seeks a settlement; these guardians are not asura allies.';
-CHAPTERS[1].encounters[1]='Return the river stone';
-CHAPTERS[1].scenes[1]='The keepers agree to return a displaced river stone. Escort its bearers to safety: naga guardians then withdraw from this encounter, leaving the asura occupation to confront.';
-CHAPTERS[2].encounters[2]='Mahishasura’s challenge';
-CHAPTERS[2].scenes[2]='Beyond Mayadhara’s false streets, Mahishasura challenges the town. Establish Durga before the last wave. Call her intervention, then aim her empowered strike at him to break his boon. The other shrines can then help finish the defence.';
-CHAPTERS[3].encounters[2]='Raktabija’s multiplying host';
-CHAPTERS[3].scenes[2]='Raktabija blocks the mountain ascent. His magic turns wounds into new foes. Kali joins this encounter as a temporary story action: time her aid before your strongest attacks to catch the seeds of his multiplying host.';
-CHAPTERS[4].encounters[2]='Vritra and the bound waters';
-CHAPTERS[4].scenes[2]='Beyond Rudhiraksha’s broken seals, Vritra binds the river at its source. Indra’s lightning must reach him to break the accumulating coils. Release the waters and reconnect every temple along the river.';
-Object.assign(MAPS[2],{intro:CHAPTERS[2].scenes[2],outro:'Mahishasura’s boon is broken. The town opens its doors, and the festival lamps shine again.',next:'The mountain road is open, but a multiplying host waits above the dry pools.'});
-Object.assign(MAPS[3],{intro:CHAPTERS[3].scenes[2],outro:'With Kali’s aid, the multiplying host is overcome. The keepers reopen the mountain sanctuary.',next:'At the source, Vritra’s coils still bind the waters. Indra’s lightning will be needed.'});
-Object.assign(MAPS[4],{intro:CHAPTERS[4].scenes[2],note:'Break Vritra’s coils and release the river.',outro:'Vritra falls. The waters run through the mountain pools, the town, the lotus crossing and the banyan grove. Lamps answer one another along the river.'});
 
-CHAPTERS[2].encounters[1]='Mayadhara’s false streets';
-CHAPTERS[2].scenes[1]='Recover the festival lamps from Mayadhara. He enters during wave five: lightning makes veiled copies, so prepare Saraswati and another damage source.';
-CHAPTERS[3].scenes[1]='Escort the mountain keepers through Nishachara’s mist. He enters during wave five; Saraswati reveals him.';
-CHAPTERS[4].scenes[1]='Bring the seven lamps past Rudhiraksha’s last seal. He enters during wave five and cycles protection between fire, water and lightning.';
+const story=[
+ {names:['The hungry raiding band','The interrupted rite','The armoured advance'],scenes:[
+ 'The village well is almost dry. Thunder rolls above the mountains, but no rain comes. A displaced vanara band raids the offerings while Mira arranges food beyond the grove. They have no part in the asura occupation.',
+ 'These temples shelter the river communities and maintain its old sacred protections. A rishi tends the grove’s protective flame while rakshasas try to interrupt the rite. Guard the bearers and keep the sanctuary open.',
+ 'An Armoured General bars the road upstream. His marching armour opens when he pauses; Agni’s protection makes fire ineffective. Defeat him so the villagers can shelter here and the party can investigate the failing river.'],
+ outro:'The grove’s lamps relight. Families return to the sanctuary, but the well is still low. Protecting the temple has saved their refuge; the river itself must be freed upstream.',
+ next:'Kapi finds orders closing the Lotus Crossing. Someone wants the settlements cut off from one another.'},
+ {names:['The disputed pools','Return the river stone','Dharan’s oath'],scenes:[
+ 'Naga guardians blame the river works for their shrinking pools. Beneath an old image of Vishnu, pilgrims wait for shelter at the crossing. Defend them while Mira seeks a settlement. The guardians are not allies of the asuras.',
+ 'The keepers agree to return a displaced river stone. Escort it to safety and the naga guardians withdraw. Their leader reports that even untouched pools upstream are drying: the obstruction is farther towards the source.',
+ 'Dharan once guarded safe passage here. An oath now binds him to the bearer of the river seal, and asura soldiers use it to close the crossing. Break their hold so he can return to his original duty.'],
+ outro:'Dharan lays down the disputed seal and joins the party. Pilgrims return to the crossing. His orders bear Mahishasura’s mark; the town upstream is under occupation.',
+ next:'“The water is being rationed to those who submit,” Dharan says. “We will find the orders in the town.”'},
+ {names:['The occupied market','The false streets','Mahishasura’s challenge'],scenes:[
+ 'Mahishasura offers water and protection in exchange for obedience. Soldiers hold both streets leading to the temple, where families have taken refuge. Secure the approaches and recover the town’s festival lamps.',
+ 'An Illusionist enters during wave five, using false doorways and veiled copies to conceal the occupation. Among the recovered orders is a pact: Vritra binds the river, Mahishasura rules the weakened settlements, and Raktabija guards the ascent to the source.',
+ 'Mahishasura’s boast rests on Brahma’s boon. Durga must break his protection. Establish her shrine before the final wave, which supplies a full intervention meter. Her empowered strike stops his charge; striking during recovery deals more damage.'],
+ outro:'Mahishasura is overcome. The market reopens and the temple shelters the town freely again. The captured orders reveal the route taken by Raktabija’s multiplying host.',
+ next:'Defeating the occupation has not released the water. The party must get past the mountain army and reach Vritra.'},
+ {names:['The stranded keepers','The rescue through the mist','Raktabija’s multiplying host'],scenes:[
+ 'Leela and the mountain keepers are trapped below their sanctuary. A little water still gathers beside a Shiva shrine, enough for the wounded. Raktabija’s army has cut off the ascent. Secure a way for the keepers to escape.',
+ 'Escort the mountain keepers through the fighting. A Mist Stalker enters during wave five; Saraswati reveals him. The keepers know a sheltered passage to the source that the occupying army has overlooked.',
+ 'Raktabija guards the ascent under his pact with Vritra and Mahishasura. His multiplying host punishes repeated attacks. Kali offers temporary aid in this battle: Call Kali replaces the regional action while he is present and prevents new echoes for ten seconds. She is not another buildable shrine.'],
+ outro:'Raktabija’s host is overcome. The rescued keepers reopen their sanctuary and lead the party through the sheltered passage to the source. Leela sends two keepers ahead to secure the remaining water channel.',
+ next:'“That path gets us there,” Leela says. “The rest will depend on the defence.”'},
+ {names:['The last open channel','The seven lamps','Vritra and the bound waters'],scenes:[
+ 'The mountain keepers guide you to the First Spring and secure one narrow water channel. It is the same water needed by the grove, the crossing and the town. Protect the sanctuary against the remnants of the alliance.',
+ 'Bring seven lamps to the sanctuary, one for each buildable shrine. A Seal Bearer enters during wave five and cycles protection between fire, water and lightning. Keep several damage sources ready as Vritra gathers at the spring.',
+ 'With his allies defeated, Vritra tightens his coils around the waters. Indra’s actual lightning hits must reach him to break their growing strength. Hold the sanctuary until the river is free to flow through the protected settlements.'],
+ outro:'Vritra falls. Water returns to the mountain pools, passes through the reopened town and the Lotus Crossing, and reaches the village well beneath the banyan. The temples shelter returning families as their lamps answer one another along the river.',
+ next:'The alliance is broken. Scattered hosts still approach the source, and the keepers maintain the Unending Vigil.'}
+];
+story.forEach((chapter,i)=>{CHAPTERS[i].encounters=chapter.names;CHAPTERS[i].scenes=chapter.scenes;Object.assign(MAPS[i],{intro:chapter.scenes[0],outro:chapter.outro,next:chapter.next});});
+CHAPTERS[1].objective='Escort the river stone';CHAPTERS[1].escort='The stone bearers';
+CHAPTERS[3].objective='Rescue the mountain keepers';
+MAPS[0].bossName='Armoured General';
 
 MAPS[2].alternatePoints=[[0,440],[220,440],[220,185],[570,185],[570,440],[1010,440],[1010,390],[1200,390]];
 export function mythWaves(b,w){
@@ -50,7 +65,7 @@ export function mythWaves(b,w){
  if(b.encounter===0&&b.mapIndex===0)return w.map((g,i)=>g.map((_,k)=>({type:i>1&&k%3===0?'stone':'vanara'})));
  if(b.encounter===0&&b.mapIndex===1)return w.map((g,i)=>g.map((_,k)=>({type:i>1&&k%4===0?'venom':'naga',emerge:k%3===0?.32:0})));
  if(b.encounter===1){w=w.map(g=>g.map(x=>({...x})));if(b.mapIndex===0)w=w.map(g=>g.map((x,k)=>k%3===0?{type:'breaker'}:x));if(b.mapIndex===1)w=w.map(g=>g.map((x,k)=>k%4===0?{type:'naga',emerge:.32}:x));
- const elites={2:{name:'Mayadhara',boon:'mirror',protection:'agni'},3:{name:'Nishachara',boon:'night',protection:'indra'},4:{name:'Rudhiraksha',boon:'seals',protection:'agni'}};
+ const elites={2:{name:'Illusionist',boon:'mirror',protection:'agni'},3:{name:'Mist Stalker',boon:'night',protection:'indra'},4:{name:'Seal Bearer',boon:'seals',protection:'agni'}};
  if(elites[b.mapIndex])w[4].splice(4,0,{type:'asura',...elites[b.mapIndex],scale:3,elite:true});
  }
  if(b.encounter===2&&b.mapIndex>0)w[5].push({type:'standard'});
@@ -58,6 +73,8 @@ export function mythWaves(b,w){
 }
 export function mythSpawn(b,e,spec){
  if(spec.emerge)e.distance=b.route.total*spec.emerge;
+ // This early commander should not be harder to pass than the final alliance bosses.
+ if(e.boon==='oath'&&b.difficulty==='difficult'){e.hp*=.7;e.maxHp*=.7;}
  if(e.boss&&['mahisha','raktabija','vritra'].includes(e.boon)){e.atlas=b.map.bossAtlas;e.cell=b.map.bossCell;e.speed=18;e.shield=b.map.shield;e.reward=110;e.protection=null;e.coils=e.boon==='vritra'?2:0;e.nextCoil=b.time+6;e.coilHitAt=-1;e.seedAt=0;e.arrivedAt=b.time;e.nextEscort=b.time+15;}
 }
 export function mythTick(b){
